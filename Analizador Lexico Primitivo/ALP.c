@@ -7,45 +7,26 @@
 int main()
 {
 
-	int reiniciar = 1;
-	do
-	{
-
-	char alfa[23] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-					'n', 'o', 'p', 'q', 'r', 's', 'u', 'v', '\0'}; // tokens alfabeticos, sem as letras reservadas.
-	char num[11] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '\0'}; // tokens num�rico.
-	char var[6] = {'x', 'y', 'z', 't', 'w', '\0'}; // tokens reservados pelo sistema.
-	char opm[8] = {'+', '-', '*', '/', '@', '#', '!', '\0'}; // tokens de operadores matem�ticos.
-	char paa[6] = {'x(', 'y(', 'z(', 't(', 'w(', '\0'}; // tokens com parenteses abrindo
-	char paf[6] = {'x)', 'y)', 'z)', 't)', 'w)', '\0'}; // tokens com parenteses fechando
-	char cha[6] = {'x[', 'y[', 'z[', 't[', 'w[', '\0'}; // tokens com chaves abrindo
-	char chf[6] = {'x]', 'y]', 'z]', 't]', 'w]', '\0'}; // tokens com cheves fechando
-	char coa[6] = {'x{', 'y{', 'z{', 't{', 'w{', '\0'}; // tokens com coxetes abrindo
-	char cof[6] = {'x}', 'y}', 'z}', 't}', 'w}', '\0'}; // tokens com coxetes fechando
-	char cnaf[19] = {'x', 'y', 'z', 't', 'w', '+', '-', '*', '/', '@', '#', '!', '(', ')',
-					'[', ']', '{', '}','\0'}; // Compilado de todos os tokens com exce��o dos alfab�ticos.
-	char comp[51] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-				'n', 'o', 'p', 'q', 'r', 's', 'u', 'v', '0', '1', '2', '3', '4', '5', '6', '7', '8',
-				'9', 'x', 'y', 'z', 't', 'w', '+', '-', '*', '/', '@',
-				'#', '!', '(',')', '{','}', '[',']', '\0'}; // Compilado de todos os tokens v�lidos da gram�tica.
-
-
-
-	// 1� ENTRADA DE TOKENS LIMITADA A 10.
+	// 1º ENTRADA DE TOKENS LIMITADA A 10.
 
 	char entrada[11];
 
-	printf("insira os dados para an�lise: ");
+	printf("insira os dados para análise: ");
 	fflush(stdout);
 
 	scanf("%10s", entrada);
 
-	printf("\nVoc� inseriu esses caracteres: %s\n", entrada);
+	printf("\nVocê inseriu esses caracteres: %s\n", entrada);
 	fflush(stdout);
 
-	//2�  COMPARA��O DOS TOKENS DIGITADOS COM A GRAM�TICA.
+	//2º  COMPARAÇÃO DOS TOKENS DIGITADOS COM AO CONJUNTO LEXICO.
 
-	char invalidos[11] = ""; // string para empilhar caracteres inv�lidos
+	char comp[51] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+					'n', 'o', 'p', 'q', 'r', 's', 'u', 'v', '0', '1', '2', '3', '4', '5', '6', '7', '8',
+					'9', 'x', 'y', 'z', 't', 'w', '+', '-', '*', '/', '@',
+					'#', '!', '(',')', '{','}', '[',']', '\0'}; // Compilado de todos os tokens válidos do conjunto Lexico.
+
+	char invalidos[11] = ""; // string para empilhar caracteres inválidos.
 	int n = 0;
 	while (entrada[n] != '\0')
 	{
@@ -58,148 +39,154 @@ int main()
 	        	}
 	            m++;
 	        }
-	        if (comp[m] == '\0') // caractere n�o encontrado em comp
+	        if (comp[m] == '\0') // caractere não encontrado em comp
 	        {
 	            char str[2] = {entrada[n], '\0'}; // transforma o caractere em uma string.
-	            strcat(invalidos, str); // desenpilhar o(s) caractere(s) inv�lido(s) � string.
+	            strcat(invalidos, str); // desenpilhar o(s) caractere(s) inválido(s) à string.
 	        }
 	        n++;
 	}
 
 	    if (strlen(invalidos) > 0)
 	    {
-	        printf("\nO(s) caractere(s) %s nao pertence(m) a gramatica.\n", invalidos);
-	        break;
+	        printf("\nO(s) caractere(s) %s nao pertence(m) ao conjunto Lexico.\n", invalidos);
+	        return 0;
 	    }
 	    else
 	    {
-	        printf("\nO(s) token(s) digitado(s) esta(�o) dentro da gram�tica.\n");
+	        printf("\nO(s) token(s) digitado(s) esta(ão) dentro do intervalo Lexico.\n");
 	    }
 
-	    // ANALIZA SE A STRING � UMA PALAVRA RESERVADA DO SISTEMA.
+	    // ANALIZA SE A STRING É UMA PALAVRA RESERVADA DO SISTEMA.
 
 	    if (entrada[0] >= '0' && entrada[0] <= '9')
 	    {
-	    	printf("\nPalavras iniciadas com n�meros s�o palavras "
+	    	printf("\nPalavras iniciadas com números são palavras "
 	    			"reservadas do sistema.\n");
-	    	break;
+	    	return 0;
 	    }
 
+	    // 3º VERIFICA SE OS TOKENS ALFABETICOS E SE ESTÃO NA MESMA ENTRADA.
 
+	    char alfa[23] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+	    					'n', 'o', 'p', 'q', 'r', 's', 'u', 'v', '\0'}; // tokens alfabeticos, sem as letras reservadas.
+	    char cnaf[29] = {'x', 'y', 'z', 't', 'w', '+', '-', '*', '/', '@', '#', '!', '(', ')',
+	    					'[', ']', '{', '}', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9','\0'}; // Compilado de todos os tokens com exceção dos alfabéticos.
 
-	    // 3� VERIFICA SE OS TOKENS ALFABETICOS E SE EST�O NA MESMA ENTRADA.
+	    int i, j, alfa_encontrado, cnaf_encontrado;
+	    alfa_encontrado = 0; // supondo que inicialmente não há caracteres alfabéticos
+	    cnaf_encontrado = 0; // supondo que inicialmente não há caracteres da variável cnaf
 
-	    int i, j, alfa_encontrado, num_encontrado, cnaf_encontrado;
-	    alfa_encontrado = 0; // supondo que inicialmente n�o h� caracteres alfab�ticos
-	    num_encontrado = 0; // supondo que inicialmente n�o h� n�meros
-	    cnaf_encontrado = 0; // supondo que inicialmente n�o h� caracteres da vari�vel cnaf
-
-	    	for (i = 0; i < strlen(entrada); i++) // verifica se o caractere atual � alfab�tico
+	    	for (i = 0; i < strlen(entrada); i++) // verifica se o caractere atual é alfabético
 	    	{
 
-	    		for (j = 0; j < 26; j++)
+	    		for (j = 0; j < 26; j++) // contador para rastrear caracteres alfabéticos.
 	    	    {
-	    			if (entrada[i] == alfa[j])
+	    			if (entrada[i] == alfa[j]) // Compara entrada com o os caracteres da variável alfa.
 	    	        {
-	    				alfa_encontrado = 1;
+	    				alfa_encontrado = 1; // Caso localize algum caractere alfabético, conta 1 na variável "alfa_encontrado"
 	    	            	break;
 	    	        }
 	    	    }
-	    			// verifica se o caractere atual � num�rico
-	    	         	 for (j = 0; j < 10; j++)
-	    	             {
-	    	         		 if (entrada[i] == num[j])
-	    	                 {
-	    	                     num_encontrado = 1;
-	    	                     break;
-	    	                 }
-	    	             }
-	    	         	// verifica se o caractere atual � da vari�vel cnaf
-	    	                for (j = 0; j < 19; j++)
-	    	                {
-	    	                    if (entrada[i] == cnaf[j])
-	    	                    {
-	    	                        cnaf_encontrado = 1;
-	    	                        break;
-	    	                    }
-	    	                }
-	    	}
 
-	    	if (alfa_encontrado)
-	    	{
-	    		if (!cnaf_encontrado)
-	    		{
-	    			printf("\nEntrada v�lida.\n");
-	    			return 0;
-	    	    }
-	    	    else if (cnaf_encontrado)
+	    		for (j = 0; j < 29; j++) // verifica se o caractere atual é da "variável cnaf".
 	    	    {
-	    	    	printf("\nEntrada inv�lida: tokens alfab�ticos e tokens de express�es \n"
-	    	               "matem�ticas n�o podem vir juntos.\n");
-	    	        return 0;
+	    			if (entrada[i] == cnaf[j]) // contador para rastrear caracteres da "variável cnaf".
+	    	        {
+	    				cnaf_encontrado = 1; // Caso localize algum caractere alfabético, conta 1 na variável "num_encontrado".
+	    				break;
+	    	        }
 	    	    }
-
 	    	}
-	    	else;
+
+	    if (alfa_encontrado == 1 && cnaf_encontrado == 1) // Testa se encontrou algum token da variável "alfa"
+	    {
+	    	//if (cnaf_encontrado) // Caso algum token de "cnaf" seja encontrado.
+	    	//{
+	    		printf("\nEntrada inválida: tokens alfabéticos e tokens de expressões \n"
+	    	    	   "matemáticas não podem vir juntos.\n"); // imprime essa mensagem.
+	    	    	        return 0; // Encerra o programa.
+	    }
+
+
+	    else;
 
 
 
 
-	    //LEITURA DE PARENTESES
+	    //5º ANALISA SE É UMA EXPRESSÃO MATEMÁTICA
 
-	    int len_paa = strlen(paa);
-	    int len_paf = strlen(paf);
-	    int paa_found = 0;
-	    int paf_found = 0;
-	    int len = strlen(entrada);
+	    char OpMatematicos[6] = {'x', 'y', 'z', 't', 'w', '\0'}; // tokens reservados pelo sistema.
+	    char CarEspeciais[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', '@', '#', '!', '(', ')',
+	        					   '[', ']', '{', '}'}; // operadores matemáticos
 
-	        for (int i = 0; i < len; i++)
+	        bool CarValidos = true; // atribui a variável "CarValidos" o valor "true" (verdadeiro), para o controle o loop for, que irá localizar a posição das variáveis das listas acima.
+
+	        for (int i = 0; i < strlen(entrada) - 1; i++) // loop para percorrer os tokens da variável "entrada" e verificar se estão na posição correta.
 	        {
-	            for (int j = 0; j < len_paa; j++)
+	            if (strchr(OpMatematicos, entrada[i]) != NULL) // vai verificar se algum token da lista OpMatematica contem em alguma das 10 posições da variável "entrada".
 	            {
-	                if (entrada[i] == paa[j])
+	                if (strchr(CarEspeciais, entrada[i + 1]) == NULL) // caso localize algum token na vairável "entrada", irá verificar se o proximo token será um token da lista "CarEspeciais" (i+1).
 	                {
-	                    paa_found = 1;
-	                    break;
+	                    CarValidos = false; // caso o próximo token não seja da lista "CarEspeciais", atribuirá "false" a variável "CarValidos".
+	                    break; // irá sair do loop.
 	                }
 	            }
-	            if (paa_found)
+	            else if (strchr(CarEspeciais, entrada[i]) != NULL) // vai verificar se algum token da lista CarEspeciais contem em alguma das 10 posições da variável "entrada".
 	            {
-	                for (int k = i + 1; k < len; k++)
+	                if (strchr(OpMatematicos, entrada[i + 1]) == NULL) // caso localize algum token na vairável "entrada", irá verificar se o proximo token será um token da lista "OpMatematicos"(i + 1).
 	                {
-	                    for (int l = 0; l < len_paf; l++)
-	                    {
-	                        if (entrada[k] == paf[l])
-	                        {
-	                            paf_found = 1;
-	                            break;
-	                        }
-	                    }
-	                    if (paf_found)
-	                    {
-	                        printf("A entrada � v�lida!\n");
-	                        break;
-	                    }
+	                    CarValidos = false; // caso o próximo token não seja da lista "OpMatematico", atribuirá "false" a variável "CarValidos".
+	                    break; // irá sair do loop.
 	                }
-	                printf("A entrada � inv�lida!, parenteses devem ser fechados.\n");
-	                break;
 	            }
 	        }
 
+	        if (!CarValidos) // se não encotrar tokens da lista "OpMatematicos" alternados de um elemento da lista "CarEspeciais" (ex: x+y-z(x*t)) o programa irá exibir a mensagem a baixo e irá encerrar.
+	        {
+	          printf("\nExpressão matemática inválida, verifique se digitou tokens atômicos reservados x y z w t "
+	        		  "alternados de operadores matemáticos ( )[ ]{ } ! @ #\n ou numéricos de 0 a 9");
+	            return 0;
+	        }
 
+	        // Verifica se todos os parênteses, colchetes e chaves estão fechados corretamente
 
+	        char pilha[11];
+	        int top = -1;
 
+	        for (int i = 0; i < strlen(entrada); i++) // loop for, utilizado para percorrer cada elemento da variável "entrada"
+	        {
+	            if (entrada[i] == '(' || entrada[i] == '[' || entrada[i] == '{') // compara posição a posição se contem um dos três caractere especial presente na lista "CarEspecial".
+	            {
+	                pilha[++top] = entrada[i]; // Caso encontre um parenteses, colchetes e/ou chaves abertas, elas serão empilhadas para comparação.
+	            }
+	            else if (entrada[i] == ')' || entrada[i] == ']' || entrada[i] == '}') // Caso encontre um parenteses, colchetes e/ou chaves fechadas, elas serão empilhadas para comparação.
+	            {
+	                if (top == -1) // caso a variável "pilha" estiver vazia quer dizer que fechou algum dos 3 operadores antes de abrir.
+	                {
+	                    printf("\nExpressão matemática inválida: )  ]  } Não podem vir antes de (  [  {\n"); // imprime a mensagem na tela
+	                    return 0; // encerra
+	                }
+	                char abertura = pilha[top--];
+	                if ((entrada[i] == ')' && abertura != '(') || (entrada[i] == ']' && abertura != '[') || (entrada[i] == '}' && abertura != '{')) // compara se o operador que abriu é o mesmo que fechou.
+	                {
+	                    printf("\nExpressão matemática inválida: não foi encontrado um operador de fechamento ) ou ] ou } correspondente\n"); // imprime a mensagem
+	                    return 0;
+	                }
+	            }
+	        }
 
+	        if (top != -1) // verifica se não deixou em aberto um dos operadores.
+	        {
+	            printf("\nExpressão matemática inválida: (  [  { devem ser fechados\n"); // imprime
+	            return 0; // Encerra
+	        }
+	        else
+	        {
+	            printf("\nÉ uma operação matemática válida\n"); // caso a expressão estiver dentro dos paramentros, imprime esta mensagem na tela.
+	            return 0;
+	        }
 
-
-
-
-
-
-
-
-
-	} while (reiniciar == 1);
 
 return 0;
 
